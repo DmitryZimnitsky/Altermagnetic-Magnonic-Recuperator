@@ -1,0 +1,19 @@
+## Ignore Visual Studio & .NET temporary build artifacts
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+## Ignore IDE settings
+.vs/
+.idea/
+*.suo
+*.user
+
+## Keep the data logs but ignore massive runtime backups if generated
+*.log
