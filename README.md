@@ -27,10 +27,19 @@ The project successfully bridges macro-scale fluid thermodynamics with nanoscale
 
 The execution loop solves the transient Fourier heat equation coupled with non-linear Stefan-Boltzmann volumetric emission terms:
 
-\[T_m^{k+1} = T_m^k + \frac{\Delta t}{c_m(T) \rho_m} \left[ \frac{\kappa_{m+1/2}(T) \cdot (T_{m+1}^k - T_m^k) - \kappa_{m-1/2}(T) \cdot (T_m^k - T_{m-1}^k)}{\Delta y^2} + q_{\text{vol}, m}^k \right]\]
+T_m(k+1) = T_m(k) + [ Δt / (c_m(T) * ρ_m) ] * [ ( κ_m+1/2(T) * (T_m+1(k) - T_m(k)) - κ_m-1/2(T) * (T_m(k) - T_m-1(k)) ) / Δy² + q_vol,m(k) ]
 
-Where the effective boundary conductivities are defined via:
-\[\kappa_{m+1/2}(T) = \frac{2 \kappa_m(T) \kappa_{m+1}(T)}{\kappa_m(T) + \kappa_{m+1}(T)}\]
+Where the effective boundary thermal conductivities at the thin-film interfaces are calculated utilizing the harmonic mean:
+
+κ_m+1/2(T) = (2 * κ_m(T) * κ_m+1(T)) / (κ_m(T) + \kappa_m+1(T))
+
+The temperature-dependent non-linear thermal conductivity of the monocrystalline MgO(001) slot waveguide ridges is strictly bound to account for phonon-phonon U-processes:
+
+κ_MgO(T) = max(5.0, 45.0 - 0.04 * T)  [W/(m·K)]
+
+The radiation emission term tracking the internal terahertz photons is normalized against the localized spatial cell node height Δy:
+
+q_emit,m(k) = (ε_MgO * σ * (T_m(k) + 273.15)⁴) / Δy
 
 ### Key Architectural Enhancements Included:
 1. **Bi-Gradient Pump System:** Models spatial horizontal thermal compression via fluid microchannels along with the vertical quantum ∇ T pump across the 2.2 nm RuO₂ layer.
@@ -71,13 +80,18 @@ The engine will compute 500,000 transient time-steps, output live telemetry to t
 ## 📊 Математическое ядро симулятора
 Вычислительный C#-компьютер решает нестационарное уравнение теплопроводности Фурье, сопряженное с нелинейными объемными членами излучения Стефана — Больцмана:
 
-$$T_m^{k+1} = T_m^k + \frac{\Delta t}{c_m(T) \rho_m} \left[ \frac{\kappa_{m+1/2}(T) \cdot (T_{m+1}^k - T_m^k) - \kappa_{m-1/2}(T) \cdot (T_m^k - T_{m-1}^k)}{\Delta y^2} + q_{vol, m}^k \right]$$
+T_m(k+1) = T_m(k) + [ Δt / (c_m(T) * ρ_m) ] * [ ( κ_m+1/2(T) * (T_m+1(k) - T_m(k)) - κ_m-1/2(T) * (T_m(k) - T_m-1(k)) ) / Δy² + q_vol,m(k) ]
 
-Для предотвращения расхождения энергии на ультратонких гетерогенных границах сред (интерфейсах Pt → RuO₂ → Al) в разностную схему интегрирован строгий расчет **гармонического среднего** межслойной теплопроводности на гранях смежных узлов:
+Для предотвращения расхождения энергии и численной диссипации на ультратонких гетерогенных границах сред (интерфейсах Pt -> RuO₂ -> Al) в разностную схема интегрирован строгий расчет гармонического среднего межслойной теплопроводности на гранях смежных узлов:
 
-$$\kappa_{m+1/2}(T) = \frac{2 \kappa_m(T) \kappa_{m+1}(T)}{\kappa_m(T) + \kappa_{m+1}(T)}$$
+κ_m+1/2(T) = (2 * κ_m(T) * κ_m+1(T)) / (κ_m(T) + κ_m+1(T))
 
-Суммирование крошечной ЭДС туннельных нанопереходов (0.2 В) до индустриальных параметров силовой электроники (**20 Вольт и 3.3 Ампера / 66 Ватт**) обеспечивается топологическим лазерным разделением матрицы на N=100 продольных стрип-полос шириной 400 мкм, объединенных по принципу каскадной последовательной «змейки» (Z-коммутации).
+Нелинейная теплопроводность монокристаллических волноводных гребней MgO в модели аппроксимируется уравнением фонон-фононного рассеяния:
+
+κ_MgO(T) = max(5.0, 45.0 - 0.04 * T)  [Вт/(м·К)]
+
+Суммирование крошечной ЭДС туннельных нанопереходов (0.2 В) до индустриальных параметров силовой электроники (20 Вольт и 3.3 Ампера / 66 Ватт) обеспечивается топологическим лазерным разделением матрицы на N=100 продольных стрип-полос шириной 400 мкм, объединенных по принципу каскадной последовательной «змейки» (Z-коммутации).
+
 <img width="3216" height="1640" alt="fig1" src="https://github.com/user-attachments/assets/a0072fa0-8494-4d62-a5f4-45ecfd9056f1" />
 
 
