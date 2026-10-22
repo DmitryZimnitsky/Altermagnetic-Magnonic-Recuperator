@@ -15,9 +15,9 @@ The project successfully bridges macro-scale fluid thermodynamics with nanoscale
 
 *   `/Cell.zip/` (C# / .NET 8.0) — The core transient numerical solver. Implements a conservative 1D finite-difference scheme with harmonic thermal conductivity averaging at heterogeneous thin-film boundaries (Pt → RuO₂ → Al). Automatically triggers the Python visualizers upon completing the time-steps.
 *   `diagrams.py` (Python) — Automatically parses the generated `simulation_data.csv`, standardizes the decimal formatting, and plots smooth logarithmic transient curves for layer temperatures and module power output (66W maximum).
-*   `belarus_patent_schema.py` (Python) — Vector CAD visualizer that renders monochrome line-art schematics with standard shelf pointers strictly adhering to regional patent office requirements (Fig 1).
+*   `shema_patent.py` (Python) — Vector CAD visualizer that renders monochrome line-art schematics with standard shelf pointers strictly adhering to regional patent office requirements (Fig 1).
 *   `thermal_gradient.py` (Python) — Renders the cross-sectional 2D color temperature maps showcasing exponential heat concentration within the dielectric MgO ridges.
-*   `ruo2_magnon_gradient.py` (Python) — Nanoscale resolution visualizer illustrating the altermagnetic RuO₂ barrier, displaying internal vertical ∇ T gradients, alternating spin sublattices, and THz magnonic wave propagation tracks.
+*   `thermal_gradient_alti.py` (Python) — Nanoscale resolution visualizer illustrating the altermagnetic RuO₂ barrier, displaying internal vertical ∇ T gradients, alternating spin sublattices, and THz magnonic wave propagation tracks.
 *   <img width="3216" height="1640" alt="fig1" src="https://github.com/user-attachments/assets/a55d4312-ce7f-40d0-a289-0beca5a030c7" />
 
 
